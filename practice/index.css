@@ -1,9 +1,13 @@
-.container {
+* {
+    padding: 0;
+    margin: 0;
+  }
+  .container {
     position: relative;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     background: #f0f0f0;
-    width: 1280px;
+    max-width: 1280px;
     height: 1372px;
     font-failmy: Helvetica Neue, Regular;
     font-size: 1.5rem;
@@ -103,6 +107,7 @@
   .footer {
     background: #2eb738;
     color: #fff;
+    font-size: 1rem;
     text-align: right;
     padding: 8px 85px 8px;
     position: absolute;
