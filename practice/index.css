@@ -1,4 +1,5 @@
 .container {
+    position: relative;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     background: #f0f0f0;
@@ -97,5 +98,16 @@
     font-size: 8rem;
     line-height: 1.2;
     text-align: center;
+    text-shadow: 4px 3px #f0f0f0;
+  }
+  .footer {
+    background: #2eb738;
+    color: #fff;
+    text-align: right;
+    padding: 8px 85px 8px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
   }
   
