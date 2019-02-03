@@ -7,9 +7,9 @@
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     background: #f0f0f0;
-    max-width: 1280px;
+    width: 1280px;
     height: 1372px;
-    font-failmy: Helvetica Neue, Regular;
+    font-family: Helvetica Neue, Regular;
     font-size: 1.5rem;
     color: #2eb738;
     display: -webkit-box;
@@ -109,7 +109,7 @@
     color: #fff;
     font-size: 1rem;
     text-align: right;
-    padding: 8px 75px 8px;
+    padding: 8px 85px 8px;
     position: absolute;
     bottom: 0;
     right: 0;
