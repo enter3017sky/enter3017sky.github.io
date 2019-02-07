@@ -5,21 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Todo Tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
 </head>
 <body>
-    <h1 id='title'>Todo Tracker</h1>
-    <form action="">
-        <input type="text" id="user-todo" placeholder="New Todo">
-    </form>
-    <h2 class="todo-header">Todos</h2>
-    <ul>
-        <!-- <li class="todos">List Item1</li>
-        <li class="todos">List Item2</li>
-        <li class="todos">List Item3</li> -->
-    </ul>
-    <button class="clean">Clean All</button>
+    <div class="container">
+        <!--  -->
+        <!--  -->
+        <div class="card mt-5">
+            <div class="card-header">
+                <h1 id='title'>Todo Tracker</h1>
+            </div>
+            <div class="card-body">
+                <form action="" class="input-group mb-3">
+                    <input type="text" id="user-todo" class="form-control" placeholder="New Todo">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Submit</button>
+                    </div>
+                </form>
+                <h5 class="card-title todo-header">Todos</h5>
+                <!-- list group -->
+                <ul class="list-group list-group-flush mb-3 todo-list">
+                    <!-- <li class="list-group-item">List Item1</li> -->
+                    <!-- <li class="list-group-item">List Item2</li> -->
+                </ul>
+                <!--  -->
+                <button class="clean btn btn-outline-danger">Clean All</button>
+            </div>
+        </div>
+    
     <script>
 
         'https://gist.github.com/robgmerrill/3e67a7e0e09acb5b77648f32bff0568f'
@@ -54,6 +68,9 @@
         
         function todoMaker(text) {
             var todoItem = document.createElement('li');
+            var att = document.createAttribute('class');
+            att.value = 'list-group-item';
+            todoItem.setAttributeNode(att)
             todoItem.textContent = text;
             todoList.appendChild(todoItem)
         }
@@ -155,10 +172,6 @@
             移除全部的 localStorage 的所有內容
             localStorage.clear()
         */
-
-
-
-
 
     </script>
 </body>
