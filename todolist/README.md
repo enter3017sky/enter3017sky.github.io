@@ -1,5 +1,7 @@
 # Javascript Project Of Javascript Beginners
 
+> 兩個部分，第一個部分是了解 DOM 的操作，第二個部分是 localStorage 的操作。
+
 > [local-storage-version-one-start](https://gist.github.com/robgmerrill/3e67a7e0e09acb5b77648f32bff0568f)
 
 ## 實作一個 To do list
@@ -38,10 +40,10 @@ todoList.appendChild(todoItem)
 
 ### 將以上的步驟做成一個 function todoMaker
 
-    - 補充資料：
-    - [JavaScript Function Definitions](https://www.w3schools.com/js/js_function_definition.asp)
+- 補充資料：
+- [JavaScript Function Definitions](https://www.w3schools.com/js/js_function_definition.asp)
 
-    - [[筆記] 進一步談JavaScript中函式的建立─function statements and function expressions](https://pjchender.blogspot.com/2016/03/javascriptfunction-statements-and.html)
+- [[筆記] 進一步談JavaScript中函式的建立─function statements and function expressions](https://pjchender.blogspot.com/2016/03/javascriptfunction-statements-and.html)
 
 ```js
 
@@ -72,7 +74,8 @@ todoList.removeChild(todoList.firstChild)
 // 第二個才移除到第一個 li
 todoList.removeChild(todoList.firstChild)
 
-// 利用 while 迴圈
+
+// 但沒關係，利用 while 迴圈通通移除XD
 while(todoList.firstChild) {
     todoList.removeChild(todoList.firstChild);
 }
@@ -115,12 +118,12 @@ var input = document.querySelector('#user-todo')
 
 formFiled.addEventListener('submit', function(e) {
     e.preventDefault()
-    
+
     // 如果沒有輸入內容就 submit 的話，顯示提醒文字，並 return (程式將不會繼續執行下去)
     if(input.value === '') {
         title.textContent = '忘記輸入拉~~~';
         return
-    } 
+    }
 
     // 提交成功的話，恢復預測的 title，然後將輸入的 todo 新增到 list 中，最後將 input 中的文字清空
     title.textContent = defaultTitle
@@ -129,8 +132,9 @@ formFiled.addEventListener('submit', function(e) {
 })
 ```
 
+---
 
-### localStorage
+## localStorage
 
 > web storage that stores data with no expiration date
 
@@ -161,14 +165,16 @@ todo-list 抽象化的角度來看，你說它是一個陣列或物件都不為�
     localStorage.getItem('todos')
 
     '4. 透過 key 移除一個 key/value pairs'
-    localStorage.removeItem('doNotdo')
+    localStorage.removeItem('doNotDo')
 
     '5. 移除全部的 localStorage 的所有內容'
     localStorage.clear()
 
 ```
 
-1. 搞定新增的 todo，第一步宣告變數 _todosArray_ 等於一個空陣列來儲存每次輸入的資料，當你把一個 todo-list 做出來的時候，你會知道如何操作 DOM 來取得輸入的資料並呈現在網頁上，所以這裡就只是把你知道如何取得的資料 `push` 到 _todosArray_ 這個陣列裡，轉換成 JSON 格式並使用 `setItem()` 新增到 _localStorage_ 。
+### 「新增資料到 _localStorage_」
+
+- 搞定新增的 todo，第一步宣告變數 _todosArray_ 等於一個空陣列來儲存每次輸入的資料，當你把一個 todo-list 做出來的時候，你會知道如何操作 DOM 來取得輸入的資料並呈現在網頁上，所以這裡就只是把你知道如何取得的資料 `push` 到 _todosArray_ 這個陣列裡，轉換成 JSON 格式並使用 `setItem()` 新增到 _localStorage_ 。
 
 ```js
 var todosArray = []
@@ -180,26 +186,55 @@ localStorage.setItem('todos', JSON.stringify(todosArray))
 // jsonArr = JSON.stringify(arr)
 ```
 
-但這樣是不夠的，localStorage 確實的儲存你的 todos 了，但是每次刷新網頁的時候，資料又重新被宣告成空陣列了，所以利用三元運算子來判斷 localStorage 是否有儲存資料，如果有資料的話，使用 `getItem()` 取出儲存在 _localStorage_ 裡 JSON 格式的資料，並用 `JSON.parse()` 將資料轉換成原本的陣列。
+然後「新增資料到 _localStorage_」就可以加到提交表單的事件上了。
 
 ```js
-var todosArray = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
-/*notes: 判斷 localStorage.getItem('todos') 是否有值，有的話將存入 localStorage 的 JSON 轉成 js，頁面刷新後 localStorage 才會有值 */
+var formFiled = document.querySelector('form')
+var input = document.querySelector('#user-todo')
+
+formFiled.addEventListener('submit', function(e) {
+    e.preventDefault()
+
+/* 將輸入的值 push 到 todosArray，然後轉成 JSON 格式後存入 localStorage */
+    todosArray.push(input.value)
+    localStorage.setItem('todos', JSON.stringify(todosArray))
+
+/* 提交成功的話，恢復預測的 title，然後將輸入的 todo 新增到 list 中，最後清空 input 的文字 */
+    title.textContent = defaultTitle
+    todoMaker(input.value)
+    input.value = ''
+})
 ```
 
+### 「從 _localStorage_ 取得資料」
+
+- 使用 `getItem()` 取得資料，然後用 `JSON.parse()` 將原本的 JSON 格式的資料轉換回原先的陣列，判斷有資料的話，用迴圈將 _storage_ 陣列裡面的資料遍歷出來，然後透過 _todoMaker_ 呈現在畫面上。
 
 ```js
-
-// 將輸入的值 push 到 todosArray，然後轉成 JSON 格式後存入 localStorage
-todosArray.push(input.value)
-localStorage.setItem('todos', JSON.stringify(todosArray))
-
 /* 把存入 localStorage 的 JSON 格式的資料解析為 js 並取出來 */
 var storage = JSON.parse(localStorage.getItem('todos'));
 if(storage) {
     for(let i = 0; i < storage.length; i++) {
         todoMaker(storage[i])
     }
+}
+
+function todoMaker(text) {
+    var todoItem = document.createElement('li');
+    todoItem.textContent = text;
+    todoList = document.querySelector('ul');
+    todoList.appendChild(todoItem)
+}
+
+
+/* 添加 class 屬性，設定到元素上 */
+function todoMaker(text) {
+    var todoItem = document.createElement('li');
+    var att = document.createAttribute('class');
+    att.value = 'list-group-item';
+    todoItem.setAttributeNode(att)
+    todoItem.textContent = text;
+    todoList.appendChild(todoItem)
 }
 
 ```
