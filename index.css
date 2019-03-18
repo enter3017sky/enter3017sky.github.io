@@ -1,0 +1,19 @@
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #8785a2;
+}
+.card-header {
+    /* background: #ffc7c7; */
+    background: #ffe2e2;
+}
+.card-body {
+    background: #f6f6f6;
+}
+.list-group-item {
+    background: #f6f6f6;
+}

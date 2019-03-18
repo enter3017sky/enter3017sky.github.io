@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Todo Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
+</head>
+<body>
+    <div class="container">
+        <!--  -->
+        <!--  -->
+        <div class="card mt-5">
+            <div class="card-header">
+                <h1 id='title'>Todo Tracker</h1>
+            </div>
+            <div class="card-body">
+                <form action="" class="input-group mb-3">
+                    <input type="text" id="user-todo" class="form-control" placeholder="New Todo">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Submit</button>
+                    </div>
+                </form>
+                <h5 class="card-title todo-header">Todos</h5>
+                <!-- list group -->
+                <ul class="list-group list-group-flush mb-3 todo-list">
+                    <!-- <li class="list-group-item">List Item1</li> -->
+                    <!-- <li class="list-group-item">List Item2</li> -->
+                </ul>
+                <!--  -->
+                <button class="clean btn btn-outline-danger">Clean All</button>
+            </div>
+        </div>
+    <!--  -->
+    <script>
+        var title = document.querySelector('#title');
+            title.textContent = 'Todo Tracker';
+        // 預設的 title
+        var defaultTitle = 'Todo Tracker';
+
+        var todoList = document.querySelector('ul');
+        var button = document.querySelector('.clean');
+        button.addEventListener('click', function() {
+
+            // 清除 localStorage
+            localStorage.clear();
+
+            // 清除 li
+            while(todoList.firstChild) {
+                todoList.removeChild(todoList.firstChild);
+            }
+        })
+
+        var formFiled = document.querySelector('form');
+        var input = document.querySelector('#user-todo');
+        var todosArray = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
+
+        formFiled.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // 如果沒有輸入內容就 submit 的話，顯示提醒文字，並 return (程式將不會繼續執行下去)
+            if(input.value === '') {
+                title.textContent = '忘記輸入拉~~~';
+                return
+            } 
+
+            // 將輸入的值 push 到 todosArray，然後轉成 JSON 格式後存入 localStorage
+            todosArray.push(input.value);
+            localStorage.setItem('todos', JSON.stringify(todosArray));
+
+            // 提交成功的話，恢復預測的 title，然後將輸入的 todo 新增到 list 中，最後將 input 中的文字清空
+            title.textContent = defaultTitle;
+            todoMaker(input.value);
+            input.value = '';
+        })
+
+        /* 把存入 localStorage 的 JSON 格式的資料解析為 js 並取出來 */
+        var storage = JSON.parse(localStorage.getItem('todos'));
+        if(storage) {
+            for(let i = 0; i < storage.length; i++) {
+                todoMaker(storage[i]);
+            }
+        }
+
+        function todoMaker(text) {
+            var todoItem = document.createElement('li');
+            var att = document.createAttribute('class');
+            att.value = 'list-group-item';
+            todoItem.setAttributeNode(att)
+            todoItem.textContent = text;
+            todoList.appendChild(todoItem)
+        }
+
+    </script>
+</body>
+</html>
